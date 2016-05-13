@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   hubot join community <id> - Lists all messages with interval set to channels
+#   hubot join community <name> - Makes me join a GOSU community if you're the owner of it.
 #
 
 module.exports = (robot) ->
