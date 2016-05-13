@@ -1,0 +1,18 @@
+{
+  "name": "hubot-gosu-joincommunity",
+  "version": "0.0.1",
+  "description": "Allows HUBOT to join a community via it's name",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://zGrav@github.com/zGrav/hubot-gosu-joincommunity.git"
+  },
+  "author": "David Silva <zgrav@go.su>",
+  "bugs": {
+    "url": "https://github.com/zGrav/hubot-gosu-joincommunity/issues"
+  },
+  "homepage": "https://github.com/zGrav/hubot-gosu-joincommunity#readme"
+}
