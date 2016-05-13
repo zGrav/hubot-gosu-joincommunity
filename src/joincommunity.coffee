@@ -16,6 +16,7 @@ module.exports = (robot) ->
     robot.hear /join community (.*)/i, (msg) ->
         if robot.auth.hasRole(msg.envelope.user,'admin')
             console.log(msg)
+            console.log(escape(msg.match[1]))
             #TODO
             msg.reply "Joined community with name: placeholder"
         else
