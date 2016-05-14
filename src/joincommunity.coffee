@@ -41,8 +41,9 @@ module.exports = (robot) ->
                         msg.reply "Already in this community!"
                         return
                     else
+                        console.log(hubID)
                         query = {
-                            "hub_id": hubID,
+                            "hub_id": hubID
                             "user_id": global.user_id
                         }
 
