@@ -15,6 +15,8 @@ module.exports = (robot) ->
 
     robot.hear /join community (.*)/i, (msg) ->
         hubID = msg.match[1]
+        hubID = hubID.substring(hubID.lastIndexOf('/') + 1)
+        
         robot.http(global.api + "/hub/#{hubID}")
         .headers('Accept': 'application/json', 'Content-Type': 'application/json', 'X-Token': global.user_token)
         .get() (err, res, body) ->
