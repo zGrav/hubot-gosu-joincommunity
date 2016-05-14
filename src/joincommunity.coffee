@@ -34,7 +34,7 @@ module.exports = (robot) ->
 
                 hubName = result.hub.title
                 hubOwner = result.hub.owner_id
-                userID = env.user.id
+                userID = msg.envelope.user.id
 
                 if robot.auth.hasRole(msg.envelope.user,'admin') or hubOwner == userID
                     if existingidx != -1
