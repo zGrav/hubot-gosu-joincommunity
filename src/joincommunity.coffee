@@ -14,9 +14,16 @@
 module.exports = (robot) ->
 
     robot.hear /join community (.*)/i, (msg) ->
+        hubID = msg.match[1]
+        robot.http(global.api + "/hub/#{hubID}")
+        .headers('Accept': 'application/json', 'Content-Type': 'application/json', 'X-Token': global.user_token)
+        .get() (err, res, body) ->
+            try
+                result = JSON.parse(body)
+            catch error
+                @robot.logger.error "Oh no! We errored :( - #{error} - API Response Code: #{res.statusCode}"
+
         if robot.auth.hasRole(msg.envelope.user,'admin')
-            console.log(msg)
-            console.log(escape(msg.match[1]))
             #TODO
             msg.reply "Joined community with name: placeholder"
         else
