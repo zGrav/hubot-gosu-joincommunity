@@ -16,12 +16,13 @@ module.exports = (robot) ->
     robot.hear /join community (.*)/i, (msg) ->
         hubID = msg.match[1]
         hubID = hubID.substring(hubID.lastIndexOf('/') + 1)
-        
+        console.log(hubID)
         robot.http(global.api + "/hub/#{hubID}")
         .headers('Accept': 'application/json', 'Content-Type': 'application/json', 'X-Token': global.user_token)
         .get() (err, res, body) ->
             try
                 result = JSON.parse(body)
+                console.log(result)
             catch error
                 @robot.logger.error "Oh no! We errored :( - #{error} - API Response Code: #{res.statusCode}"
 
