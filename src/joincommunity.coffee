@@ -11,6 +11,17 @@
 #   hubot join community <name> - Makes me join a GOSU community if you're the owner of it.
 #
 
+class Functions
+
+    searchArray: (key, arr) ->
+        i = 0
+
+        while i < arr.length
+            if arr[i].id == key
+                return true
+            i++
+        return false
+
 module.exports = (robot) ->
 
     robot.hear /join community (.*)/i, (msg) ->
@@ -41,7 +52,6 @@ module.exports = (robot) ->
                         msg.reply "Already in this community!"
                         return
                     else
-                        console.log(hubID)
                         query = {
                             "hub_id": hubID
                             "user_id": global.user_id
@@ -77,10 +87,12 @@ module.exports = (robot) ->
                                   try
                                     result = JSON.parse(body)
 
+                                    funcs = new Functions
+
                                     l = 0
                                     while l < result.user.channels.length
                                         if result.user.channels[l].type == 2 or result.user.channels[l].type == 3 or result.user.channels[l].type == 4 or result.user.channels[l].type == 5
-                                            if searchArray(result.user.channels[l].id, global.channels_by_index) == false
+                                            if funcs.searchArray(result.user.channels[l].id, global.channels_by_index) == false
                                                 global.channels_by_index.push(title: result.user.channels[l].title, id: result.user.channels[l].id, hub_id: result.user.channels[l].hub_id, type: result.user.channels[l].type, ts: null)
                                         l++
                                   catch error
@@ -92,12 +104,3 @@ module.exports = (robot) ->
 
             catch error
                 @robot.logger.error "Oh no! We errored :( - #{error} - API Response Code: #{res.statusCode}"
-
-    searchArray: (key, arr) ->
-        i = 0
-
-        while i < arr.length
-            if arr[i].id == key
-                return true
-            i++
-        return false
