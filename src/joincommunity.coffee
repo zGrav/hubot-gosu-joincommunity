@@ -11,6 +11,8 @@
 #   hubot join community <name> - Makes me join a GOSU community if you're the owner of it.
 #
 
+existing = []
+
 class Functions
 
     searchArray: (key, arr) ->
@@ -22,15 +24,20 @@ class Functions
             i++
         return false
 
+     loadHubIDs: ->
+         i = 0
+
+         while i < global.channels_by_index.length
+             if channels_by_index[i].hub_id != undefined
+                 existing.push(global.channels_by_index[i].hub_id)
+             i++
+
 module.exports = (robot) ->
 
     robot.hear /join community (.*)/i, (msg) ->
-        existing = []
-        i = 0
+        funcs = new Functions
 
-        while i < global.channels_by_index.length
-            existing.push(global.channels_by_index[i].hub_id)
-            i++
+        funcs.loadHubIDs()
 
         hubID = msg.match[1]
         hubID = hubID.substring(hubID.lastIndexOf('/') + 1)
@@ -86,8 +93,6 @@ module.exports = (robot) ->
                               .post(string_query) (err, res, body) ->
                                   try
                                     result = JSON.parse(body)
-
-                                    funcs = new Functions
 
                                     l = 0
                                     while l < result.user.channels.length
