@@ -94,6 +94,8 @@ module.exports = (robot) ->
                                   try
                                     result = JSON.parse(body)
 
+                                    funcs = new Functions
+
                                     l = 0
                                     while l < result.user.channels.length
                                         if result.user.channels[l].type == 2 or result.user.channels[l].type == 3 or result.user.channels[l].type == 4 or result.user.channels[l].type == 5

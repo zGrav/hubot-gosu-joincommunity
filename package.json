@@ -1,6 +1,6 @@
 {
   "name": "hubot-gosu-joincommunity",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Allows HUBOT to join a community via it's name",
   "main": "index.js",
   "scripts": {
