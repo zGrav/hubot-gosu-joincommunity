@@ -1,5 +1,5 @@
 # Description:
-#   Join a community via name
+#   Join a community via id or name
 #
 # Dependencies:
 #   None
@@ -39,8 +39,14 @@ module.exports = (robot) ->
 
         funcs.loadHubIDs()
 
+        if msg.envelope.message.text.indexOf('direct') > -1
+            msg.send "Sorry, cannot run this command in a private channel, please run it in a public channel in order to verify your permissions."
+            return
+
         hubID = msg.match[1]
         hubID = hubID.substring(hubID.lastIndexOf('/') + 1)
+        console.log(hubID)
+        console.log(global.api)
 
         existingidx = existing.indexOf(hubID)
 
@@ -54,9 +60,9 @@ module.exports = (robot) ->
                 hubOwner = result.hub.owner_id
                 userID = msg.envelope.user.id
 
-                if robot.auth.hasRole(msg.envelope.user,'admin') or hubOwner == userID
+                if msg.envelope.user.is_moderator or hubOwner == userID
                     if existingidx != -1
-                        msg.reply "Already in this community!"
+                        msg.send "Already in this community!"
                         return
                     else
                         query = {
@@ -75,7 +81,7 @@ module.exports = (robot) ->
                                   robot.logger.error "Oh no! We errored under API :( - Response Code: #{res.statusCode}"
                                   return
 
-                              msg.reply "Joined community with name: #{hubName}"
+                              msg.send "Joined community with name: #{hubName}"
 
                               query = {
                                   "username": global.username,
@@ -94,8 +100,6 @@ module.exports = (robot) ->
                                   try
                                     result = JSON.parse(body)
 
-                                    funcs = new Functions
-
                                     l = 0
                                     while l < result.user.channels.length
                                         if result.user.channels[l].type == 2 or result.user.channels[l].type == 3 or result.user.channels[l].type == 4 or result.user.channels[l].type == 5
@@ -107,7 +111,7 @@ module.exports = (robot) ->
                             catch error
                                 robot.logger.error "Oh no! We errored :( - #{error} - API Response Code: #{res.statusCode}"
                 else
-                    msg.reply "Sorry, but you don't have permission to run this command."
+                    msg.send "Sorry, but you don't have permission to run this command."
 
             catch error
                 @robot.logger.error "Oh no! We errored :( - #{error} - API Response Code: #{res.statusCode}"
