@@ -45,8 +45,6 @@ module.exports = (robot) ->
 
         hubID = msg.match[1]
         hubID = hubID.substring(hubID.lastIndexOf('/') + 1)
-        console.log(hubID)
-        console.log(global.api)
 
         existingidx = existing.indexOf(hubID)
 
